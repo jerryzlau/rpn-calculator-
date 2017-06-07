@@ -16,26 +16,30 @@ class RPNCalculator
   end
 
   def plus
-    raise ("calculator is empty") if @array.size < 2
+    check_error
+
     @array << @array.pop + @array.pop
   end
 
   def minus
-    raise ("calculator is empty") if @array.size < 2
+    check_error
+
     first = @array.pop
     second = @array.pop
     @array << second - first
   end
 
   def divide
-    raise ("calculator is empty") if @array.size < 2
+    check_error
+
     first = @array.pop.to_f
     second = @array.pop.to_f
     @array << second / first
   end
 
   def times
-    raise ("calculator is empty") if @array.size < 2
+    check_error
+    
     @array << @array.pop * @array.pop
   end
 
@@ -46,8 +50,11 @@ class RPNCalculator
     end
   end
 
+  def check_error
+    raise ("calculator is empty") if @array.size < 2
+  end
+
   def evaluate(string)
-    debugger
     tokens(string).each do |el|
       if el == :+
         self.plus
@@ -58,7 +65,7 @@ class RPNCalculator
       elsif el == :/
         self.divide
       else
-        @array.push(el)
+        self.push(el)
       end
     end
     self.value
